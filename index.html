@@ -139,7 +139,7 @@
         <div class="timer" id="timer"></div>
       </div>
 
-      <audio controls class="audio-player">
+      <audio class="audio-player" id="meuAudio" autoplay>
         <source
           src="/audio/garotas-não-merecem-chorar--áudio-original---oficial.mp3"
           type="audio/mpeg"
@@ -192,6 +192,30 @@
 
       // For background image - this is a workaround since the direct imgur link might not work
       document.body.style.backgroundImage = "url('/img/bg.png')";
+    </script>
+    <script>
+      window.addEventListener("load", () => {
+        const audio = document.getElementById("meuAudio");
+
+        const fakeClick = new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        });
+
+        document.body.dispatchEvent(fakeClick);
+
+        audio.play().catch((e) => {
+          console.log("Autoplay com som bloqueado. Tentando ativar ao clicar.");
+        });
+      });
+
+      document.body.addEventListener("click", () => {
+        const audio = document.getElementById("meuAudio");
+        if (audio.paused) {
+          audio.play();
+        }
+      });
     </script>
   </body>
 </html>
